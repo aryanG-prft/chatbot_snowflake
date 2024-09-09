@@ -45,7 +45,7 @@ def main():
     display_snowflake_details()
     
     st.write("### Upload a Document")
-    uploaded_file = st.file_uploader("Choose a file")
+    uploaded_file = st.file_uploader("Choose a PDF file", type=["pdf"])
     if uploaded_file is not None:
         try:
             upload_to_snowflake(uploaded_file,cursor)
