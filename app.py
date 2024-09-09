@@ -107,8 +107,7 @@ def display_snowflake_details():
         st.write("No Snowflake connection available.")
 
 
-
-def upload_to_snowflake(uploaded_file):
+def upload_to_snowflake(uploaded_file, cursor):
     if cursor:
         file_name = uploaded_file.name
         file_content = uploaded_file.read()  # In-memory file content
@@ -120,17 +119,21 @@ def upload_to_snowflake(uploaded_file):
                 temp_file_path = temp_file.name
 
             # Upload the file to Snowflake stage
-            put_command = f"PUT 'file://{temp_file_path}' @CC_QUICKSTART_CORTEX_DOCS.DATA.DOCS AUTO_COMPRESS=TRUE"
+            put_command = f"PUT 'file://{temp_file_path}'@ARYAN_GUPTA_DB.DATA.DOCS AUTO_COMPRESS=TRUE"
             cursor.execute(put_command)
 
             # Clean up the temp file after successful upload
             os.remove(temp_file_path)
 
-            st.success(f"File '{file_name}' successfully uploaded to stage @CC_QUICKSTART_CORTEX_DOCS.DATA.DOCS.")
+            st.success(f"File '{file_name}' successfully uploaded to stage @ARYAN_GUPTA_DB.DATA.DOCS.")
         except Exception as e:
             st.error(f"Error uploading file to Snowflake: {e}")
+        finally:
+            if os.path.exists(temp_file_path):
+                os.remove(temp_file_path)
     else:
         st.error("No connection to Snowflake for file upload.")
+
 
 def config_options():
     st.sidebar.selectbox('Select your model:', (
