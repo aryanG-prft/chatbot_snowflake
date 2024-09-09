@@ -111,10 +111,14 @@ def upload_to_snowflake(uploaded_file, cursor):
     if cursor:
         file_name = uploaded_file.name
         file_content = uploaded_file.read()  # In-memory file content
-        
+
+        # Ensure the file has a .pdf extension
+        if not file_name.endswith('.pdf'):
+            file_name += '.pdf'
+
         # Save the file temporarily using tempfile
         try:
-            with tempfile.NamedTemporaryFile(delete=False) as temp_file:
+            with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as temp_file:
                 temp_file.write(file_content)
                 temp_file_path = temp_file.name
 
@@ -133,6 +137,7 @@ def upload_to_snowflake(uploaded_file, cursor):
                 os.remove(temp_file_path)
     else:
         st.error("No connection to Snowflake for file upload.")
+
 
 
 
