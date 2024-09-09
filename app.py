@@ -125,6 +125,10 @@ def upload_to_snowflake(uploaded_file, cursor):
             # Ensure file is uploaded without compression
             put_command = f"PUT 'file://{temp_file_path}' @ARYAN_GUPTA_DB.DATA.DOCS AUTO_COMPRESS=FALSE"
             cursor.execute(put_command)
+            
+            # Refresh the stage to ensure Snowflake recognizes the new file
+            refresh_command = "ALTER STAGE @ARYAN_GUPTA_DB.DATA.DOCS REFRESH"
+            cursor.execute(refresh_command)
 
             # Clean up the temp file after successful upload
             os.remove(temp_file_path)
