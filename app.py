@@ -127,8 +127,8 @@ def upload_to_snowflake(uploaded_file, cursor):
             cursor.execute(put_command)
             
             # Refresh the stage to ensure Snowflake recognizes the new file
-            refresh_command = "ALTER STAGE @ARYAN_GUPTA_DB.DATA.DOCS REFRESH"
-            cursor.execute(refresh_command)
+            # refresh_command = "ALTER STAGE @ARYAN_GUPTA_DB.DATA.DOCS REFRESH"
+            # cursor.execute(refresh_command)
 
             # Clean up the temp file after successful upload
             os.remove(temp_file_path)
