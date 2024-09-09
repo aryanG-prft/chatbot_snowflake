@@ -118,8 +118,8 @@ def upload_to_snowflake(uploaded_file, cursor):
                 temp_file.write(file_content)
                 temp_file_path = temp_file.name
 
-            # Upload the file to Snowflake stage
-            put_command = f"PUT 'file://{temp_file_path}'@ARYAN_GUPTA_DB.DATA.DOCS"
+            # Ensure file is uploaded without compression
+            put_command = f"PUT 'file://{temp_file_path}' @ARYAN_GUPTA_DB.DATA.DOCS AUTO_COMPRESS=FALSE"
             cursor.execute(put_command)
 
             # Clean up the temp file after successful upload
@@ -133,6 +133,7 @@ def upload_to_snowflake(uploaded_file, cursor):
                 os.remove(temp_file_path)
     else:
         st.error("No connection to Snowflake for file upload.")
+
 
 
 def config_options():
