@@ -119,7 +119,7 @@ def upload_to_snowflake(uploaded_file, cursor):
                 temp_file_path = temp_file.name
 
             # Upload the file to Snowflake stage
-            put_command = f"PUT 'file://{temp_file_path}'@ARYAN_GUPTA_DB.DATA.DOCS AUTO_COMPRESS=TRUE"
+            put_command = f"PUT 'file://{temp_file_path}'@ARYAN_GUPTA_DB.DATA.DOCS"
             cursor.execute(put_command)
 
             # Clean up the temp file after successful upload
