@@ -118,9 +118,9 @@ def upload_to_snowflake(uploaded_file, cursor):
 
         # Save the file temporarily using tempfile
         try:
-            with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as temp_file:
+            temp_file_path = os.path.join(tempfile.gettempdir(), file_name)
+            with open(temp_file_path, 'wb') as temp_file:
                 temp_file.write(file_content)
-                temp_file_path = temp_file.name
 
             # Ensure file is uploaded without compression
             put_command = f"PUT 'file://{temp_file_path}' @ARYAN_GUPTA_DB.DATA.DOCS AUTO_COMPRESS=FALSE"
