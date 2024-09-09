@@ -48,7 +48,7 @@ def main():
     uploaded_file = st.file_uploader("Choose a file")
     if uploaded_file is not None:
         try:
-            upload_to_snowflake(uploaded_file)
+            upload_to_snowflake(uploaded_file,cursor)
             st.success("File uploaded successfully!")
         except Exception as e:
             st.error(f"Error uploading file: {e}")
